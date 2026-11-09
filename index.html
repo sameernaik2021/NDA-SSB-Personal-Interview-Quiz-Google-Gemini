@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NDA SSB Personal Interview - Complete 100 Questions Quiz</title>
+    <style>
+        :root {
+            --primary: #1b365d;
+            --primary-hover: #132744;
+            --accent: #d4af37;
+            --bg: #f4f7f9;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+            --correct: #2e7d32;
+            --correct-bg: #e8f5e9;
+            --incorrect: #c62828;
+            --incorrect-bg: #ffebee;
+            --hint-bg: #fff8e1;
+            --hint-border: #ffe082;
+            --border-radius: 8px;
+            --transition: all 0.25s ease-in-out;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quiz-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        .quiz-header h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .quiz-header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: #e0e0e0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .quiz-body {
+            padding: 25px;
+        }
+
+        .meta-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .question-text {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .option-btn {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: var(--border-radius);
+            padding: 14px 18px;
+            text-align: left;
+            font-size: 0.98rem;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-main);
+            outline: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-bg) !important;
+            border-color: var(--correct) !important;
+            color: var(--correct) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--incorrect-bg) !important;
+            border-color: var(--incorrect) !important;
+            color: var(--incorrect) !important;
+            font-weight: 600;
+        }
+
+        .option-btn:disabled {
+            cursor: default;
+        }
+
+        .hint-box {
+            background-color: var(--hint-bg);
+            border: 1px solid var(--hint-border);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.95rem;
+            color: #795548;
+        }
+
+        .explanation-box {
+            background-color: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 0.95rem;
+            color: #0d47a1;
+        }
+
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: var(--text-main);
+        }
+
+        .btn-secondary:hover:not([disabled]) {
+            background-color: #d6d6d6;
+        }
+
+        .btn-hint {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .btn-hint:hover:not([disabled]) {
+            background-color: #ffe8a1;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not([disabled]) {
+            background-color: var(--primary-hover);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Results Screen Styling */
+        .results-container {
+            text-align: center;
+            display: none;
+            padding: 10px 0;
+        }
+
+        .results-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .score-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: var(--accent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            font-size: 2rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .score-circle span {
+            font-size: 0.8rem;
+            color: white;
+            font-weight: normal;
+        }
+
+        .results-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .stat-card {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 15px;
+            border: 1px solid #e9ecef;
+        }
+
+        .stat-card .number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .stat-card.correct .number { color: var(--correct); }
+        .stat-card.incorrect .number { color: var(--incorrect); }
+        .stat-card.total .number { color: var(--primary); }
+
+        @media (max-width: 600px) {
+            .quiz-body {
+                padding: 15px;
+            }
+            .quiz-footer {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .btn {
+                flex: 1 1 45%;
+                text-align: center;
+            }
+            .btn-primary {
+                flex: 1 1 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="quiz-header">
+            <h1>NDA SSB Interview Complete Quiz</h1>
+            <p>100 Practice Questions and Sample Answers for SSB Aspirants</p>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <div class="quiz-body" id="quiz-screen">
+            <div class="meta-info">
+                <span id="question-tracker">Question 1 of 100</span>
+                <span id="score-tracker">Score: 0</span>
+            </div>
+
+            <div class="question-text" id="question-text">
+                Loading Question...
+            </div>
+
+            <div class="options-grid" id="options-container">
+                <!-- Dynamic options generated by JS -->
+            </div>
+
+            <div class="hint-box" id="hint-box">
+                <strong>💡 Hint:</strong> <span id="hint-text"></span>
+            </div>
+
+            <div class="explanation-box" id="explanation-box">
+                <strong>📝 Sample Answer / Explanation:</strong> <span id="explanation-text"></span>
+            </div>
+
+            <div class="quiz-footer">
+                <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>⬅ Previous</button>
+                <button class="btn btn-hint" id="hint-btn" onclick="toggleHint()">Show Hint 💡</button>
+                <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()" disabled>Next Question ➜</button>
+            </div>
+        </div>
+
+        <div class="quiz-body results-container" id="results-screen">
+            <h2 class="results-title">Quiz Completed! 🎉</h2>
+            <p>Here is your performance summary for all 100 SSB Interview Questions:</p>
+
+            <div class="score-circle">
+                <div id="percentage-score">0%</div>
+                <span>Final Score</span>
+            </div>
+
+            <div class="results-stats">
+                <div class="stat-card total">
+                    <div>Total Questions</div>
+                    <div class="number" id="stat-total">100</div>
+                </div>
+                <div class="stat-card correct">
+                    <div>Correct</div>
+                    <div class="number" id="stat-correct">0</div>
+                </div>
+                <div class="stat-card incorrect">
+                    <div>Incorrect</div>
+                    <div class="number" id="stat-incorrect">0</div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; padding: 14px; margin-top: 10px;" onclick="restartQuiz()">Restart Quiz 🔄</button>
+        </div>
+    </div>
+
+    <script>
+        // All 100 Questions derived directly from NDA SSB Personal Interview - 100 Questions with Sample Answers.md
+        const quizData = [
+            // SET 1: Personal Background, Family and Education (1-25)
+            {
+                question: "1. When asked 'Tell me something about yourself', what key components should your response ideally cover?",
+                options: [
+                    "Only your future career aspirations and target salary",
+                    "Name, hometown, education level, hobbies, positive traits, and ambition to serve as an officer[cite: 2]",
+                    "A detailed chronological history of your family tree",
+                    "Your grievances about your previous school and teachers"
+                ],
+                answer: 1,
+                hint: "Cover basic identity, education, interests, personality traits, and career goals.",
+                explanation: "Sample answer covers your name, background, education, hobbies, personal traits, and ambition to serve the nation as an officer[cite: 2]."
+            },
+            {
+                question: "2. When answering 'Tell me about your family', what values should you highlight regarding your upbringing?",
+                options: [
+                    "Financial status and luxury assets",
+                    "Independence from family guidance",
+                    "Discipline, honesty, respect, responsibility, and mutual support[cite: 2]",
+                    "Strict rules with no emotional support"
+                ],
+                answer: 2,
+                hint: "Highlight moral values taught by your parents.",
+                explanation: "Your family teaches discipline, honesty, respect, and responsibility, working hard toward goals[cite: 2]."
+            },
+            {
+                question: "3. What quality is recommended to highlight when discussing your father's profession?",
+                options: [
+                    "His ability to avoid hard work",
+                    "His commitment towards his work and family[cite: 2]",
+                    "His strictness towards outsiders",
+                    "His hobbies outside work"
+                ],
+                answer: 1,
+                hint: "Focus on consistency, responsibility, and dedication learned from him[cite: 2].",
+                explanation: "You learn consistency, responsibility, dedication, and commitment toward work and family from your father[cite: 2]."
+            },
+            {
+                question: "4. What emotional and practical qualities do you typically learn from your mother's role?",
+                options: [
+                    "Patience, compassion, handling responsibilities, and remaining calm in difficult situations[cite: 2]",
+                    "Strict enforcement of schedules",
+                    "Avoiding household tasks",
+                    "Aggressive decision making"
+                ],
+                answer: 0,
+                hint: "Think about composure and compassion during tough times.",
+                explanation: "Mothers teach patience, compassion, responsibility management, and handling difficult situations calmly[cite: 2]."
+            },
+            {
+                question: "5. When asked 'Who are you closer to, your mother or your father?', what is a balanced sample approach?",
+                options: [
+                    "Claiming total isolation from both parents",
+                    "Sharing a good relationship with both, approaching dad for practical decisions and mom for personal matters[cite: 2]",
+                    "Only talking to your father",
+                    "Stating you dislike both"
+                ],
+                answer: 1,
+                hint: "Maintain balance rather than showing extreme bias.",
+                explanation: "A balanced approach shows you approach both comfortably for different forms of guidance[cite: 2]."
+            },
+            {
+                question: "6. What is the best way to describe your responsibilities at home?",
+                options: [
+                    "Doing no chores at all",
+                    "Helping with household activities and independently managing your daily schedule[cite: 2]",
+                    "Managing family finances completely",
+                    "Ordering younger siblings around"
+                ],
+                answer: 1,
+                hint: "Mention specific chores and personal time management.",
+                explanation: "Helping with household activities and managing personal work independently demonstrates responsibility[cite: 2]."
+            },
+            {
+                question: "7. How should you describe your relationship with your siblings in the interview?",
+                options: [
+                    "Friendly, helping each other with studies, and resolving differences through discussion[cite: 2]",
+                    "Constant fighting with no resolution",
+                    "Total indifference and lack of communication",
+                    "Complete obedience without question"
+                ],
+                answer: 0,
+                hint: "Emphasize mutual support and peaceful resolution of disagreements.",
+                explanation: "A friendly relationship involves helping each other and resolving occasional disagreements through discussion[cite: 2]."
+            },
+            {
+                question: "8. Why should you identify a specific favourite subject?",
+                options: [
+                    "Because it improves analytical thinking, helps understand concepts logically, and brings satisfaction in solving problems[cite: 2]",
+                    "Because it requires zero effort",
+                    "Because teachers give high marks automatically",
+                    "Because it is the easiest subject in school"
+                ],
+                answer: 0,
+                hint: "Focus on logical understanding and problem-solving.",
+                explanation: "A favourite subject improves analytical thinking, logical comprehension, and satisfaction in solving challenges[cite: 2]."
+            },
+            {
+                question: "9. When asked which subject you dislike, how should you frame your answer?",
+                options: [
+                    "Insult the teacher who taught the subject",
+                    "Admit it is challenging but emphasize working to improve understanding through regular practice[cite: 2]",
+                    "Claim you love every subject equally without exception",
+                    "State that the subject is completely useless in real life"
+                ],
+                answer: 1,
+                hint: "Acknowledge the challenge constructively.",
+                explanation: "Acknowledge a challenging subject while highlighting your proactive effort to improve through practice[cite: 2]."
+            },
+            {
+                question: "10. When discussing your Class 10 and 12 percentages, what additional detail should you provide?",
+                options: [
+                    "Only state the numbers and blame external factors for lower scores",
+                    "Mention specific strong subjects and areas where you worked to improve[cite: 2]",
+                    "Exaggerate your scores to impress the officer",
+                    "Refuse to share your academic records"
+                ],
+                answer: 1,
+                hint: "Show self-awareness regarding performance.",
+                explanation: "State your percentage, highlight strong subjects, and identify areas where you worked on improvements[cite: 2]."
+            },
+            {
+                question: "11. What is the rationale behind choosing your specific academic stream (Science, Commerce, Arts)?",
+                options: [
+                    "Pressure from friends",
+                    "Pure coincidence",
+                    "Interest in the subjects and their relevance to your future goals[cite: 2]",
+                    "Avoiding mathematics"
+                ],
+                answer: 2,
+                hint: "Link your stream choice directly to your career foundation.",
+                explanation: "Choosing a stream based on genuine interest and alignment with future goals builds a strong academic foundation[cite: 2]."
+            },
+            {
+                question: "12. What qualities make a teacher your favourite according to SSB sample guidance?",
+                options: [
+                    "Giving zero homework and passing everyone",
+                    "Encouraging students to ask questions, think independently, and participate in activities[cite: 2]",
+                    "Strict punishment for minor errors",
+                    "Favoritism towards top rankers"
+                ],
+                answer: 1,
+                hint: "Think about independent thinking and active participation.",
+                explanation: "Great teachers encourage questioning, independent thinking, and participation beyond just teaching the syllabus[cite: 2]."
+            },
+            {
+                question: "13. If you have been punished at school, how should you present it?",
+                options: [
+                    "Deny it ever happened despite school records",
+                    "Accept responsibility, understand the mistake, and explain how it taught you to follow rules better[cite: 2]",
+                    "Blame classmates for framing you",
+                    "Argue that the teacher was unfair"
+                ],
+                answer: 1,
+                hint: "Take accountability and show positive behavioral correction.",
+                explanation: "Admitting a past mistake, accepting consequences, and learning to follow rules better demonstrates maturity[cite: 2]."
+            },
+            {
+                question: "14. How should you describe your overall standing as a student?",
+                options: [
+                    "A reasonably good student who maintained consistency and worked on areas needing improvement[cite: 2]",
+                    "A genius who never studied yet topped everything",
+                    "A total failure in academics",
+                    "A student who ignored studies entirely for sports"
+                ],
+                answer: 0,
+                hint: "Strike a balanced, realistic tone.",
+                explanation: "Describing yourself as reasonably consistent while acknowledging areas for improvement reflects honesty[cite: 2]."
+            },
+            {
+                question: "15. What value do extracurricular activities add to your profile?",
+                options: [
+                    "They waste time better spent on textbooks",
+                    "They help improve teamwork, communication, and confidence[cite: 2]",
+                    "They are only useful for exemption from exams",
+                    "They replace academic learning entirely"
+                ],
+                answer: 1,
+                hint: "Focus on soft skills like teamwork and confidence.",
+                explanation: "Extracurriculars build teamwork, communication skills, and personal confidence[cite: 2]."
+            },
+            {
+                question: "16. If you have never held a formal leadership position, what should you mention?",
+                options: [
+                    "That you are incapable of leading",
+                    "An actual situation where you took responsibility or coordinated tasks[cite: 2]",
+                    "A fictional leadership role",
+                    "That leadership is unimportant"
+                ],
+                answer: 1,
+                hint: "Look for informal instances of taking initiative and responsibility.",
+                explanation: "If no formal title exists, highlight informal situations where you stepped up and took responsibility[cite: 2]."
+            },
+            {
+                question: "17. What is a crucial rule when mentioning hobbies in an SSB interview?",
+                options: [
+                    "List hobbies you know nothing about to sound impressive",
+                    "Be prepared for detailed questions about every hobby you mention[cite: 2]",
+                    "Only mention indoor video games",
+                    "Never mention more than one hobby"
+                ],
+                answer: 1,
+                hint: "Know your hobbies thoroughly because cross-questioning is guaranteed.",
+                explanation: "Assessors will ask detailed follow-up questions about every hobby you claim, so honesty and depth matter[cite: 2]."
+            },
+            {
+                question: "18. How should you productively spend your free time?",
+                options: [
+                    "Playing sports, reading, exercising, learning something new, and spending time with family/friends[cite: 2]",
+                    "Sleeping for 14 hours a day",
+                    "Browsing social media endlessly",
+                    "Avoiding all social interaction"
+                ],
+                answer: 0,
+                hint: "Focus on active, constructive downtime.",
+                explanation: "Productive free time involves physical activity, reading, exercise, learning, and balanced social engagement[cite: 2]."
+            },
+            {
+                question: "19. When describing your best friend, what traits should you highlight?",
+                options: [
+                    "Their wealth and social status",
+                    "Honesty, helpful nature, and positive attitude[cite: 2]",
+                    "Their willingness to break rules with you",
+                    "How easily they agree with your opinions"
+                ],
+                answer: 1,
+                hint: "Look for positive moral character.",
+                explanation: "Highlighting honesty, helpfulness, and mutual motivation reflects strong interpersonal appreciation[cite: 2]."
+            },
+            {
+                question: "20. What qualities should you value most in your friends?",
+                options: [
+                    "Blind loyalty without questioning your actions",
+                    "Honesty, reliability, positive attitude, and willingness to give constructive feedback[cite: 2]",
+                    "Doing your homework for you",
+                    "Sharing identical opinions on everything"
+                ],
+                answer: 1,
+                hint: "Value friends who offer constructive feedback.",
+                explanation: "Valuing friends who give constructive feedback rather than blind agreement shows maturity[cite: 2]."
+            },
+            {
+                question: "21. What are three core strengths commonly cited in successful SSB interviews?",
+                options: [
+                    "Arrogance, stubbornness, and speed",
+                    "Consistency, willingness to learn, and responsibility[cite: 2]",
+                    "Perfectionism, inflexibility, and isolation",
+                    "Complaining, avoiding work, and blaming others"
+                ],
+                answer: 1,
+                hint: "Focus on reliability, growth mindset, and duty.",
+                explanation: "Consistency, willingness to learn, and responsibility are foundational strengths for officers[cite: 2]."
+            },
+            {
+                question: "22. How should you present your personal weakness?",
+                options: [
+                    "Claim you have zero weaknesses",
+                    "State a weakness like over-analyzing decisions and explain how you set time limits to fix it[cite: 2]",
+                    "Mention a severe criminal flaw",
+                    "Blame others for your shortcomings"
+                ],
+                answer: 1,
+                hint: "Mention a genuine, workable trait and how you manage it.",
+                explanation: "Acknowledge a real trait (like spending extra time analyzing decisions) and explain your active corrective strategy[cite: 2]."
+            },
+            {
+                question: "23. What defines your biggest achievement?",
+                options: [
+                    "Winning a lottery without effort",
+                    "An actual achievement requiring consistent effort, discipline, and overcoming challenges[cite: 2]",
+                    "Taking credit for someone else's team project",
+                    "An achievement from early childhood"
+                ],
+                answer: 1,
+                hint: "Focus on earned success through discipline and hard work.",
+                explanation: "True achievements require consistent effort, discipline, and overcoming obstacles[cite: 2]."
+            },
+            {
+                question: "24. How should you view past failures in an interview?",
+                options: [
+                    "As proof that you are destined to fail",
+                    "As feedback to analyze what went wrong and improve future efforts[cite: 2]",
+                    "As events to be completely hidden",
+                    "As someone else's fault entirely"
+                ],
+                answer: 1,
+                hint: "Treat failure as constructive feedback.",
+                explanation: "Failures should be analyzed to identify shortcomings and treated as valuable feedback for future success[cite: 2]."
+            },
+            {
+                question: "25. How would your friends ideally describe you based on sample guidance?",
+                options: [
+                    "Aggressive and dominating",
+                    "Approachable, dependable, and helpful[cite: 2]",
+                    "Silent and unapproachable",
+                    "Extremely careless"
+                ],
+                answer: 1,
+                hint: "Think of positive social attributes.",
+                explanation: "Friends should describe you as approachable, dependable, and helpful[cite: 2]."
+            },
+
+            // SET 2: Personality, Behaviour, Leadership and Situational Questions (26-50)
+            {
+                question: "26. What is the primary motivation for wanting to join the Indian Armed Forces?",
+                options: [
+                    "Job security and high pensions only",
+                    "A combination of responsibility, leadership, discipline, physical/mental challenge, and service to the nation[cite: 2]",
+                    "Avoiding corporate office jobs",
+                    "Family pressure"
+                ],
+                answer: 1,
+                hint: "Look for leadership, responsibility, and national service.",
+                explanation: "Joining armed forces is driven by responsibility, leadership, discipline, and service to the country[cite: 2]."
+            },
+            {
+                question: "27. Why do candidates apply specifically for an officer entry rather than joining as a soldier?",
+                options: [
+                    "Soldiers do not work hard",
+                    "Interest in planning, decision-making, leading teams, and taking responsibility for outcomes[cite: 2]",
+                    "Avoiding physical training",
+                    "Higher initial salary with no responsibilities"
+                ],
+                answer: 1,
+                hint: "Focus on command responsibility and planning.",
+                explanation: "Officership involves planning, decision-making, leading teams, and taking ultimate responsibility for outcomes[cite: 2]."
+            },
+            {
+                question: "28. According to SSB standards, what does true leadership mean?",
+                options: [
+                    "Ordering people around without listening",
+                    "Taking responsibility, setting an example, guiding people, and accepting blame for mistakes[cite: 2]",
+                    "Taking all the credit for team success",
+                    "Avoiding hard work while subordinates labor"
+                ],
+                answer: 1,
+                hint: "Set an example and take accountability.",
+                explanation: "Leadership means taking responsibility, setting an example, guiding the team, and accepting accountability for mistakes[cite: 2]."
+            },
+            {
+                question: "29. Are you a leader or a follower?",
+                options: [
+                    "Only a leader; I never follow anyone",
+                    "Only a follower; I refuse to lead",
+                    "Both roles depending on the situation, leading when responsible and following effectively when someone else has greater expertise[cite: 2]",
+                    "Neither"
+                ],
+                answer: 2,
+                hint: "Demonstrate situational adaptability.",
+                explanation: "An adaptable person performs both roles: leading when assigned responsibility and following competently when appropriate[cite: 2]."
+            },
+            {
+                question: "30. What should you do if your team members disagree with your decision?",
+                options: [
+                    "Punish them for insubordination",
+                    "Listen to their opinions, incorporate valid suggestions, and explain your reasoning while keeping morale high[cite: 2]",
+                    "Ignore them and proceed blindly",
+                    "Abandon the task entirely"
+                ],
+                answer: 1,
+                hint: "Listen, evaluate, and communicate clearly.",
+                explanation: "Listen to concerns, incorporate good suggestions, explain your reasoning, and keep the team motivated[cite: 2]."
+            },
+            {
+                question: "31. How should an officer handle high-pressure situations?",
+                options: [
+                    "Panic and shout at subordinates",
+                    "Remain calm, identify key tasks, divide problems into steps, and focus on what you can control[cite: 2]",
+                    "Procrastinate until the deadline passes",
+                    "Blame higher authorities for the pressure"
+                ],
+                answer: 1,
+                hint: "Stay calm and break down problems systematically.",
+                explanation: "Remaining calm, prioritizing tasks, breaking problems down, and focusing on controllable factors is key under pressure[cite: 2]."
+            },
+            {
+                question: "32. What is the correct approach if you fail an examination?",
+                options: [
+                    "Quit studying forever",
+                    "Analyze preparation, identify weak topics, develop a better strategy, and treat results as feedback[cite: 2]",
+                    "Accuse the examiner of bias",
+                    "Ignore the failure"
+                ],
+                answer: 1,
+                hint: "Treat failure as constructive feedback for future strategy.",
+                explanation: "Analyze preparation, fix weak areas, adjust strategy, and treat the result as feedback[cite: 2]."
+            },
+            {
+                question: "33. What should you do if you notice your friend cheating in an exam?",
+                options: [
+                    "Help them cheat better",
+                    "Explain that cheating is unethical, encourage honesty, and follow rules/reporting channels if necessary[cite: 2]",
+                    "Blackmail them",
+                    "Join in so you both pass"
+                ],
+                answer: 1,
+                hint: "Maintain ethics and follow institutional rules.",
+                explanation: "Explain the unethical nature of cheating, encourage honesty, and adhere to examination rules[cite: 2]."
+            },
+            {
+                question: "34. How should you react if you witness someone being bullied?",
+                options: [
+                    "Join the bullies",
+                    "Intervene appropriately to ensure safety, support the victim, and inform authorities if needed[cite: 2]",
+                    "Pretend you didn't see anything",
+                    "Record it on video for social media"
+                ],
+                answer: 1,
+                hint: "Intervene safely and protect the victim.",
+                explanation: "Intervene safely, support the victim, and notify relevant authorities if necessary[cite: 2]."
+            },
+            {
+                question: "35. What is the correct response if a senior gives an order you believe is incorrect?",
+                options: [
+                    "Refuse the order publicly and insult the senior",
+                    "Respectfully clarify instructions, communicate concerns through proper channels, and act lawfully[cite: 2]",
+                    "Silently sabotage the order",
+                    "Complain on social media"
+                ],
+                answer: 1,
+                hint: "Use proper channels and seek respectful clarification.",
+                explanation: "Clarify instructions respectfully, communicate concerns through proper channels, and follow lawful procedures[cite: 2]."
+            },
+            {
+                question: "36. How do you motivate a demotivated team?",
+                options: [
+                    "Threaten them with severe punishments",
+                    "Understand root causes, set achievable short-term goals, recognize genuine efforts, and lead by example[cite: 2]",
+                    "Insult their work ethic",
+                    "Ignore their lack of motivation"
+                ],
+                answer: 1,
+                hint: "Find root causes and set short-term achievable goals.",
+                explanation: "Understand challenges, set short-term goals, recognize effort, and lead by example[cite: 2]."
+            },
+            {
+                question: "37. Between intelligence and hard work, which is more important?",
+                options: [
+                    "Intelligence alone; hard work is useless",
+                    "Hard work alone; intelligence doesn't matter",
+                    "Both are important: intelligence solves problems, while hard work executes solutions consistently[cite: 2]",
+                    "Neither matters"
+                ],
+                answer: 2,
+                hint: "A successful officer needs both analytical thought and execution.",
+                explanation: "Both matter: intelligence identifies solutions while hard work executes them consistently[cite: 2]."
+            },
+            {
+                question: "38. What should you state as your biggest fear in an SSB interview?",
+                options: [
+                    "Spiders or heights",
+                    "Not making proper use of opportunities and falling short of responsibilities, managed via discipline[cite: 2]",
+                    "Failing a written test",
+                    "Having no fear at all"
+                ],
+                answer: 1,
+                hint: "Focus on missing opportunities or failing responsibilities.",
+                explanation: "Fear of not utilizing opportunities or falling short of responsibilities, addressed through discipline, shows earnestness[cite: 2]."
+            },
+            {
+                question: "39. How would you classify your social temperament (introvert/extrovert)?",
+                options: [
+                    "Extreme introvert who hates people",
+                    "Extreme extrovert who cannot be alone",
+                    "Ambivert: enjoying group activities and social interaction while valuing independent learning and reflection[cite: 2]",
+                    "None of the above"
+                ],
+                answer: 2,
+                hint: "Balance social engagement with independent reflection.",
+                explanation: "An ambivert enjoys interaction and group work while valuing independent reflection[cite: 2]."
+            },
+            {
+                question: "40. How should you react to constructive criticism?",
+                options: [
+                    "Get angry and attack the critic",
+                    "Understand if it highlights a genuine mistake, accept it, and work on improvement without taking it personally[cite: 2]",
+                    "Ignore all feedback",
+                    "Pretend to agree while mocking them later"
+                ],
+                answer: 1,
+                hint: "Accept valid feedback without taking it personally.",
+                explanation: "Evaluate if criticism is constructive, accept valid mistakes, and improve without taking it personally[cite: 2]."
+            },
+            {
+                question: "41. What action should you take if two team members start fighting?",
+                options: [
+                    "Encourage them to fight harder",
+                    "Calm the situation, separate them, understand both sides, and encourage professional resolution[cite: 2]",
+                    "Walk away and ignore them",
+                    "Report them immediately without hearing them out"
+                ],
+                answer: 1,
+                hint: "De-escalate, separate, and mediate professionally.",
+                explanation: "Calm the situation, separate individuals, understand both sides, and promote professional resolution[cite: 2]."
+            },
+            {
+                question: "42. Would you choose friendship over duty?",
+                options: [
+                    "Yes, friends come before everything",
+                    "No, while friendships are valued, responsibilities and ethical principles must not be compromised[cite: 2]",
+                    "It depends on who the friend is",
+                    "Duty doesn't matter"
+                ],
+                answer: 1,
+                hint: "Duty and ethical principles take precedence over personal relationships.",
+                explanation: "Values friendships, but never compromises official responsibilities or ethical principles[cite: 2]."
+            },
+            {
+                question: "43. What is the primary source of personal motivation?",
+                options: [
+                    "External praise and rewards",
+                    "Setting meaningful goals, making progress, taking responsibility, and seeing results of consistent effort[cite: 2]",
+                    "Fear of punishment",
+                    "Competing against others maliciously"
+                ],
+                answer: 1,
+                hint: "Focus on meaningful goals and consistent effort.",
+                explanation: "Motivation comes from setting meaningful goals, progressing, taking responsibility, and seeing effort bear fruit[cite: 2]."
+            },
+            {
+                question: "44. How should you effectively manage your time?",
+                options: [
+                    "Wait until deadlines arrive before working",
+                    "Prioritize tasks by importance, make daily schedules balancing studies and rest, and review progress[cite: 2]",
+                    "Work 24 hours a day without sleep",
+                    "Let others schedule your day"
+                ],
+                answer: 1,
+                hint: "Prioritize tasks and schedule daily activities.",
+                explanation: "Prioritize tasks, maintain a daily schedule balancing work and rest, and review progress[cite: 2]."
+            },
+            {
+                question: "45. What should you do if forced to make an important decision with limited information?",
+                options: [
+                    "Refuse to decide and freeze",
+                    "Identify objectives, gather best available data, evaluate consequences, make timely decisions, and stay adaptable[cite: 2]",
+                    "Guess randomly without evaluation",
+                    "Blame others for lack of data"
+                ],
+                answer: 1,
+                hint: "Make a timely decision based on available data and stay adaptable.",
+                explanation: "Identify objectives, use best available information, make timely decisions, and remain ready to adapt[cite: 2]."
+            },
+            {
+                question: "46. What is the key difference between confidence and overconfidence?",
+                options: [
+                    "There is no difference",
+                    "Confidence relies on preparation and understanding limits; overconfidence overestimates abilities and ignores risks[cite: 2]",
+                    "Confidence is arrogant while overconfidence is humble",
+                    "Overconfidence guarantees success"
+                ],
+                answer: 1,
+                hint: "Confidence understands limits and prepares; overconfidence ignores risks.",
+                explanation: "Confidence believes in abilities while knowing limits and preparing; overconfidence ignores risks and advice[cite: 2]."
+            },
+            {
+                question: "47. How do you handle a situation where your team makes a mistake under your leadership?",
+                options: [
+                    "Blame subordinates publicly",
+                    "Take responsibility for your role, analyze what went wrong, and work on corrective action without blaming individuals[cite: 2]",
+                    "Hide the mistake from superiors",
+                    "Resign immediately"
+                ],
+                answer: 1,
+                hint: "A leader takes accountability for team outcomes.",
+                explanation: "Take responsibility for your role, analyze the failure, avoid blaming individuals, and prevent recurrence[cite: 2]."
+            },
+            {
+                question: "48. What does personal discipline mean in an officer's life?",
+                options: [
+                    "Following rules only when someone is watching",
+                    "Maintaining consistency in actions, following rules, respecting commitments, and completing responsibilities when unmotivated[cite: 2]",
+                    "Living a rigid, joyless life",
+                    "Strict punishment of juniors"
+                ],
+                answer: 1,
+                hint: "Consistency and fulfilling commitments even when unmotivated.",
+                explanation: "Discipline means consistency, following rules, honoring commitments, and executing duties when motivation is low[cite: 2]."
+            },
+            {
+                question: "49. Would you sacrifice personal comfort for your team?",
+                options: [
+                    "Never; personal comfort comes first",
+                    "Yes, when required by mission demands, guided by responsibility and practicality[cite: 2]",
+                    "Only if paid extra",
+                    "Only when observed by seniors"
+                ],
+                answer: 1,
+                hint: "Mission and team needs supersede personal comfort.",
+                explanation: "Team objectives sometimes require personal adjustments, guided by responsibility and practicality[cite: 2]."
+            },
+            {
+                question: "50. Why are you suitable for becoming an armed forces officer?",
+                options: [
+                    "Because you are superior to everyone else",
+                    "Due to willingness to learn, sense of responsibility, teamwork, and continuous self-improvement[cite: 2]",
+                    "Because you want an easy lifestyle",
+                    "Because your parents forced you"
+                ],
+                answer: 1,
+                hint: "Emphasize willingness to learn, responsibility, and teamwork.",
+                explanation: "Suitability stems from responsibility, willingness to learn, teamwork, and constant self-improvement[cite: 2]."
+            },
+
+            // SET 3: Defence Knowledge, NDA, Armed Forces and General Awareness (51-75)
+            {
+                question: "51. What does NDA stand for and what is its purpose?",
+                options: [
+                    "National Disaster Agency for flood relief",
+                    "National Defence Academy, a joint services training institution for Army, Navy, and Air Force cadets[cite: 2]",
+                    "National Development Authority for infrastructure",
+                    "Naval Directorate of Armaments"
+                ],
+                answer: 1,
+                hint: "It is the joint pre-commissioning training academy in Khadakwasla.",
+                explanation: "NDA stands for National Defence Academy, training tri-service cadets before pre-commissioning academies[cite: 2]."
+            },
+            {
+                question: "52. Where is the National Defence Academy located?",
+                options: [
+                    "New Delhi",
+                    "Khadakwasla, near Pune, Maharashtra[cite: 2]",
+                    "Dehradun, Uttarakhand",
+                    "Bengaluru, Karnataka"
+                ],
+                answer: 1,
+                hint: "Approximately 17 km from Pune city[cite: 2].",
+                explanation: "NDA is located at Khadakwasla, near Pune, Maharashtra[cite: 2]."
+            },
+            {
+                question: "53. Why was the National Defence Academy established?",
+                options: [
+                    "To conduct civil service examinations",
+                    "To provide joint training to future officers to foster leadership, camaraderie, and joint operations understanding[cite: 2]",
+                    "To manufacture weapons",
+                    "To train civilian engineers"
+                ],
+                answer: 1,
+                hint: "Focus on joint training and camaraderie among the three services.",
+                explanation: "NDA provides joint training to develop leadership, discipline, camaraderie, and joint military operations understanding[cite: 2]."
+            },
+            {
+                question: "54. What are the three primary branches of the Indian Armed Forces?",
+                options: [
+                    "Police, Paramilitary, and Home Guard",
+                    "Indian Army, Indian Navy, and Indian Air Force[cite: 2]",
+                    "Coast Guard, Border Security Force, and CRPF",
+                    "Infantry, Artillery, and Armoured Corps"
+                ],
+                answer: 1,
+                hint: "Army, Navy, Air Force.",
+                explanation: "The three branches are the Indian Army, Indian Navy, and Indian Air Force[cite: 2]."
+            },
+            {
+                question: "55. Who holds the position of Supreme Commander of the Indian Armed Forces?",
+                options: [
+                    "The Prime Minister",
+                    "The President of India[cite: 2]",
+                    "The Chief of Defence Staff",
+                    "The Defence Minister"
+                ],
+                answer: 1,
+                hint: "The head of state.",
+                explanation: "The President of India is the Supreme Commander of the Indian Armed Forces[cite: 2]."
+            },
+            {
+                question: "56. Who is the current Chief of Defence Staff (CDS) of India?",
+                options: [
+                    "General N. S. Raja Subramani[cite: 2]",
+                    "General Anil Chauhan",
+                    "General Bipin Rawat",
+                    "General Manoj Pande"
+                ],
+                answer: 0,
+                hint: "Refer to the updated November 2026 directory.",
+                explanation: "General N. S. Raja Subramani serves as the Chief of Defence Staff[cite: 2]."
+            },
+            {
+                question: "57. Who is the professional head and Chief of the Indian Army?",
+                options: [
+                    "General Dhiraj Seth[cite: 2]",
+                    "General Upendra Dwivedi",
+                    "General Manoj C. Pande",
+                    "General M. M. Naravane"
+                ],
+                answer: 0,
+                hint: "Refer to the official 2026 armed forces chiefs directory.",
+                explanation: "General Dhiraj Seth is the Chief of the Army Staff[cite: 2]."
+            },
+            {
+                question: "58. Who is the professional head and Chief of the Indian Navy?",
+                options: [
+                    "Admiral R. Hari Kumar",
+                    "Admiral Krishna Swaminathan[cite: 2]",
+                    "Admiral Sunil Lanba",
+                    "Admiral Dinesh K. Tripathi"
+                ],
+                answer: 1,
+                hint: "Refer to the official 2026 Navy leadership list.",
+                explanation: "Admiral Krishna Swaminathan is the Chief of the Naval Staff[cite: 2]."
+            },
+            {
+                question: "59. Who is the professional head and Chief of the Indian Air Force?",
+                options: [
+                    "Air Chief Marshal V. R. Chaudhari",
+                    "Air Chief Marshal Ashutosh Dixit[cite: 2]",
+                    "Air Chief Marshal R. K. S. Bhadauria",
+                    "Air Chief Marshal A. P. Singh"
+                ],
+                answer: 1,
+                hint: "Refer to the official 2026 Air Force leadership list.",
+                explanation: "Air Chief Marshal Ashutosh Dixit is the Chief of the Air Staff[cite: 2]."
+            },
+            {
+                question: "60. What is the fundamental difference between NDA and CDS examinations?",
+                options: [
+                    "NDA is for Class 12 candidates, while CDS is for graduates entering officer academies[cite: 2]",
+                    "NDA is for the Navy only, CDS is for the Army",
+                    "NDA is conducted by state governments, CDS by UPSC",
+                    "There is no difference"
+                ],
+                answer: 0,
+                hint: "Check educational eligibility criteria (Class 12 vs Graduates).",
+                explanation: "NDA is for Class 12 applicants, whereas CDS is for graduates seeking entry into IMA, INA, AFA, and OTA[cite: 2]."
+            },
+            {
+                question: "61. What are the primary operational domains of the Army, Navy, and Air Force?",
+                options: [
+                    "Army: Land; Navy: Maritime; Air Force: Air defence[cite: 2]",
+                    "All three operate exclusively in cyber warfare",
+                    "Army: Space; Navy: Rivers; Air Force: Oceans",
+                    "Army: Sea; Navy: Air; Air Force: Land"
+                ],
+                answer: 0,
+                hint: "Land, water, and airspace.",
+                explanation: "Army handles land operations, Navy secures maritime interests, and Air Force defends airspace[cite: 2]."
+            },
+            {
+                question: "62. Which of the following is an ascending order of Indian Army commissioned officer ranks?",
+                options: [
+                    "General -> Lieutenant General -> Major General",
+                    "Lieutenant -> Captain -> Major -> Lieutenant Colonel -> Colonel -> Brigadier[cite: 2]",
+                    "Colonel -> Major -> Captain -> Lieutenant",
+                    "Captain -> Lieutenant -> Major -> Brigadier"
+                ],
+                answer: 1,
+                hint: "Starts from Lieutenant and goes up to General.",
+                explanation: "Ascending order: Lieutenant, Captain, Major, Lieutenant Colonel, Colonel, Brigadier, Major General, Lieutenant General, General[cite: 2]."
+            },
+            {
+                question: "63. What is the core role of the Indian Army?",
+                options: [
+                    "Protecting land borders, territorial integrity, and assisting civil authorities during disasters[cite: 2]",
+                    "Patrolling international ocean trenches",
+                    "Managing commercial airline routes",
+                    "Regulating domestic stock markets"
+                ],
+                answer: 0,
+                hint: "Land borders and territorial integrity.",
+                explanation: "The Army protects land borders, safeguards territorial integrity, and assists civil authorities during emergencies[cite: 2]."
+            },
+            {
+                question: "64. What is the core role of the Indian Navy?",
+                options: [
+                    "Protecting maritime interests, securing sea routes, and ensuring regional maritime security[cite: 2]",
+                    "Guarding Himalayan mountain passes",
+                    "Managing domestic rail networks",
+                    "Controlling national airspace"
+                ],
+                answer: 0,
+                hint: "Maritime interests and sea routes.",
+                explanation: "The Navy protects maritime interests, secures sea routes, and contributes to regional maritime security[cite: 2]."
+            },
+            {
+                question: "65. What is the core role of the Indian Air Force?",
+                options: [
+                    "Protecting Indian airspace, conducting air operations, and executing disaster relief (HADR)[cite: 2]",
+                    "Building naval aircraft carriers",
+                    "Patrolling land borders on foot",
+                    "Managing merchant shipping fleets"
+                ],
+                answer: 0,
+                hint: "Airspace defense and aerial disaster relief.",
+                explanation: "The IAF protects airspace, conducts air operations, supports other services, and undertakes HADR missions[cite: 2]."
+            },
+            {
+                question: "66. What differentiates a commissioned officer from a non-commissioned officer (NCO)?",
+                options: [
+                    "Commissioned officers hold presidential commissions for command/leadership; NCOs hold enlisted leadership ranks supervising execution[cite: 2]",
+                    "NCOs hold presidential commissions while officers do not",
+                    "There is no functional distinction",
+                    "Commissioned officers do not undergo training"
+                ],
+                answer: 0,
+                hint: "Presidential commission vs enlisted supervisory ranks.",
+                explanation: "Commissioned officers hold a presidential commission for command and management; NCOs are senior enlisted leaders supervising personnel[cite: 2]."
+            },
+            {
+                question: "67. What is the motto of the National Defence Academy?",
+                options: [
+                    "Sham No Varunah",
+                    "Nabha Sparsham Deeptam",
+                    "Seva Parmo Dharma ('Service Before Self')[cite: 2]",
+                    "Unity and Discipline"
+                ],
+                answer: 2,
+                hint: "Service Before Self.",
+                explanation: "The motto of NDA is 'Seva Parmo Dharma', meaning 'Service Before Self'[cite: 2]."
+            },
+            {
+                question: "68. What is the official motto of the Indian Army?",
+                options: [
+                    "Service Before Self[cite: 2]",
+                    "Touch the Sky with Glory",
+                    "May the Lord of the Water be auspicious unto us",
+                    "Always Vigilant"
+                ],
+                answer: 0,
+                hint: "Same as NDA's motto.",
+                explanation: "The motto of the Indian Army is 'Service Before Self'[cite: 2]."
+            },
+            {
+                question: "69. What is the meaning of the Indian Navy's motto 'Sham No Varunah'?",
+                options: [
+                    "Touch the Sky with Glory",
+                    "Service Before Self",
+                    "May the Lord of the Water be auspicious unto us[cite: 2]",
+                    "Victory is our Profession"
+                ],
+                answer: 2,
+                hint: "Invokes Lord Varuna, God of Water.",
+                explanation: "'Sham No Varunah' means 'May the Lord of the Water be auspicious unto us'[cite: 2]."
+            },
+            {
+                question: "70. What is the meaning of the IAF motto 'Nabha Sparsham Deeptam'?",
+                options: [
+                    "Touch the Sky with Glory[cite: 2]",
+                    "Service Before Self",
+                    "Swift, Silent, Secure",
+                    "Guardian of the Skies"
+                ],
+                answer: 0,
+                hint: "Famous English translation: Touch the Sky with Glory.",
+                explanation: "'Nabha Sparsham Deeptam' means 'Touch the Sky with Glory'[cite: 2]."
+            },
+            {
+                question: "71. Which of the following includes major historical military operations conducted by India?",
+                options: [
+                    "Operation Vijay (Kargil), Operation Meghdoot (Siachen), Operation Cactus (Maldives), Operation Pawan (Sri Lanka)[cite: 2]",
+                    "Operation Desert Storm only",
+                    "Operation Barbarossa and Overlord",
+                    "Operation Ganga exclusively"
+                ],
+                answer: 0,
+                hint: "Includes Kargil and Siachen operations.",
+                explanation: "Important operations include Operation Vijay (1999), Operation Meghdoot (1984), Operation Cactus (1988), and Operation Pawan (1987)[cite: 2]."
+            },
+            {
+                question: "72. What distinguishes fighter aircraft, transport aircraft, and helicopters?",
+                options: [
+                    "Fighters handle combat/defense; transports move personnel/supplies; helicopters handle transport, reconnaissance, and medical evacuation[cite: 2]",
+                    "All three perform identical combat roles",
+                    "Helicopters are used exclusively for supersonic interception",
+                    "Transport aircraft are used for frontline dogfights"
+                ],
+                answer: 0,
+                hint: "Combat vs logistics/transport vs multi-role vertical flight.",
+                explanation: "Fighters are for air combat; transports move personnel and supplies; helicopters handle transport, reconnaissance, and medevac[cite: 2]."
+            },
+            {
+                question: "73. Which of the following lists important aircraft used by the Indian Air Force?",
+                options: [
+                    "Boeing 747, Airbus A320, Cessna 172",
+                    "Rafale, Sukhoi Su-30MKI, Tejas, Mirage 2000, C-17 Globemaster III[cite: 2]",
+                    "Titanic, INS Vikrant, INS Arihant",
+                    "T-90 Bhishma, Arjun Tank, BMP-2"
+                ],
+                answer: 1,
+                hint: "Includes Rafale, Su-30MKI, Tejas, Mirage 2000, and C-17.",
+                explanation: "Key IAF aircraft include Rafale, Sukhoi Su-30MKI, Tejas, Mirage 2000, and C-17 Globemaster III[cite: 2]."
+            },
+            {
+                question: "74. What is the fundamental difference between a submarine and a surface warship?",
+                options: [
+                    "Submarines operate underwater, whereas warships operate on the water surface[cite: 2]",
+                    "Warships operate underwater and submarines operate in the air",
+                    "There is no structural difference",
+                    "Submarines are civilian cargo vessels"
+                ],
+                answer: 0,
+                hint: "Underwater vs surface operations.",
+                explanation: "Submarines operate underwater, while warships operate on the water surface[cite: 2]."
+            },
+            {
+                question: "75. Why is discipline considered indispensable in the Armed Forces?",
+                options: [
+                    "To suppress individual creativity completely",
+                    "To ensure coordination, reliability, accountability, and effective execution under challenging conditions[cite: 2]",
+                    "To make parades look attractive",
+                    "To avoid paperwork"
+                ],
+                answer: 1,
+                hint: "Focus on coordination, reliability, and operational effectiveness.",
+                explanation: "Discipline ensures coordination, reliability, accountability, and operational success under harsh conditions[cite: 2]."
+            },
+
+            // SET 4: Situational, Analytical, Current Affairs and Advanced Personal Interview Questions (76-100)
+            {
+                question: "76. What should you do if stranded in an unfamiliar place without a mobile phone?",
+                options: [
+                    "Panic and wander randomly into the dark",
+                    "Remain calm, assess surroundings, approach trustworthy local authorities or responsible individuals for safe directions[cite: 2]",
+                    "Break into a nearby building",
+                    "Wait indefinitely without moving"
+                ],
+                answer: 1,
+                hint: "Stay calm and seek help from trusted authorities.",
+                explanation: "Remain calm, assess surroundings, and approach trustworthy local authorities or responsible individuals for assistance[cite: 2]."
+            },
+            {
+                question: "77. If leading a group where one member refuses to cooperate, how should you handle it?",
+                options: [
+                    "Publicly humiliate them in front of the team",
+                    "Speak privately, understand their concerns, explain the objective, align responsibilities, and escalate if necessary[cite: 2]",
+                    "Ignore them and do their work yourself",
+                    "Expel them instantly without discussion"
+                ],
+                answer: 1,
+                hint: "Talk privately to understand concerns and align responsibilities.",
+                explanation: "Speak privately, understand reasons, explain common goals, assign fitting tasks, and use proper channels if issues persist[cite: 2]."
+            },
+            {
+                question: "78. If given a task that appears impossible, what is the proper officer-like response?",
+                options: [
+                    "Reject the task immediately and walk away",
+                    "Understand objectives and resources, divide tasks into smaller steps, seek assistance, and make a sincere effort[cite: 2]",
+                    "Complain to higher authorities",
+                    "Pretend to complete it while doing nothing"
+                ],
+                answer: 1,
+                hint: "Break down the task and make a sincere, structured effort.",
+                explanation: "Understand objectives, break tasks down into manageable steps, seek help, and make a sincere effort rather than quitting[cite: 2]."
+            },
+            {
+                question: "79. If selected for the Army during SSB but your primary preference was the Air Force, what should you do?",
+                options: [
+                    "Reject the selection with anger",
+                    "Respect the process, consider eligibility and aptitude, and make a mature decision based on genuine interest[cite: 2]",
+                    "Demand an immediate transfer without joining",
+                    "Lie to your superiors about your branch"
+                ],
+                answer: 1,
+                hint: "Respect the selection process and evaluate career options maturely.",
+                explanation: "Respect selection outcomes, evaluate the opportunity professionally based on eligibility, aptitude, and desire to serve[cite: 2]."
+            },
+            {
+                question: "80. What should you do if you are not recommended by the SSB?",
+                options: [
+                    "Blame the assessors for being biased",
+                    "Accept results positively, analyze performance, work on shortcomings, and prepare for future attempts[cite: 2]",
+                    "Give up on all career goals permanently",
+                    "Protest outside the selection center"
+                ],
+                answer: 1,
+                hint: "Treat it as feedback and prepare for future opportunities.",
+                explanation: "Accept results positively, analyze performance, improve weak areas, and try again if eligible without letting one setback define you[cite: 2]."
+            },
+            {
+                question: "81. What is the true meaning of patriotism according to SSB guidelines?",
+                options: [
+                    "Blind hatred of other nations",
+                    "Respecting the country, Constitution, people, and values while fulfilling responsibilities honestly and contributing to progress[cite: 2]",
+                    "Only shouting slogans during festivals",
+                    "Avoiding civic duties"
+                ],
+                answer: 1,
+                hint: "Respecting the Constitution and fulfilling civic responsibilities honestly.",
+                explanation: "Patriotism means respecting the country, Constitution, and values, while fulfilling responsibilities honestly[cite: 2]."
+            },
+            {
+                question: "82. What are some major challenges facing India's youth today?",
+                options: [
+                    "Unemployment, education access gaps, skill gaps, mental health concerns, and responsible tech use[cite: 2]",
+                    "Excessive physical fitness",
+                    "Too many employment opportunities",
+                    "Lack of internet connectivity nationwide"
+                ],
+                answer: 0,
+                hint: "Focus on employment, skills, education, and mental health.",
+                explanation: "Challenges include unemployment, education inequality, skill gaps, mental health, and responsible technology use[cite: 2]."
+            },
+            {
+                question: "83. What are India's major national security challenges?",
+                options: [
+                    "Border security, terrorism, cyber threats, maritime security, and regional geopolitical tensions[cite: 2]",
+                    "Internal agricultural shortages only",
+                    "Space exploration accidents",
+                    "Lack of civilian vehicle manufacturing"
+                ],
+                answer: 0,
+                hint: "Border security, terrorism, cyber, and maritime threats.",
+                explanation: "Security challenges encompass border concerns, terrorism, cyber threats, maritime security, and geopolitical tensions[cite: 2]."
+            },
+            {
+                question: "84. Why is technology increasingly critical in modern warfare?",
+                options: [
+                    "It replaces human soldiers entirely with video games",
+                    "It enhances communication, surveillance, intelligence, logistics, air defense, AI, drones, and cybersecurity[cite: 2]",
+                    "It eliminates the need for physical fitness",
+                    "It slows down decision-making"
+                ],
+                answer: 1,
+                hint: "Surveillance, AI, drones, and communications.",
+                explanation: "Technology drives communication, surveillance, intelligence, logistics, AI, drones, and cybersecurity in modern defense[cite: 2]."
+            },
+            {
+                question: "85. What is the stance on women joining the Armed Forces in professional officer roles?",
+                options: [
+                    "Women should be barred from all military roles",
+                    "Opportunities should be based on merit, eligibility, and service requirements; women have proven capable and strengthen talent pools[cite: 2]",
+                    "Only women should serve in combat",
+                    "Women should only handle administrative paperwork"
+                ],
+                answer: 1,
+                hint: "Merit-based opportunities strengthen the talent pool.",
+                explanation: "Opportunities should be merit-based; women have proven their capabilities in military roles, strengthening the force[cite: 2]."
+            },
+            {
+                question: "86. Why is physical fitness vital for a military officer?",
+                options: [
+                    "Only for cosmetic appearance on parades",
+                    "To maintain endurance, strength, agility, mental resilience, and set a positive example for troops[cite: 2]",
+                    "To avoid office paperwork",
+                    "It has no practical military value"
+                ],
+                answer: 1,
+                hint: "Endurance, mental resilience, and troop leadership.",
+                explanation: "Fitness ensures endurance and operational capability under demanding conditions while building mental resilience and setting examples[cite: 2]."
+            },
+            {
+                question: "87. What should you do if you notice a fellow cadet breaking an important rule?",
+                options: [
+                    "Join them in breaking the rule",
+                    "Understand the situation, explain why rules matter, and inform authorities if the violation is serious or repeated[cite: 2]",
+                    "Blackmail the cadet",
+                    "Pretend rule violations do not matter"
+                ],
+                answer: 1,
+                hint: "Counsel them first, then report serious violations through channels.",
+                explanation: "Understand context, explain rule importance, and report serious or continuous violations to authorities rather than ignoring them[cite: 2]."
+            },
+            {
+                question: "88. If you could change one thing in your school, what improvement would you introduce?",
+                options: [
+                    "Abolish all examinations and homework permanently",
+                    "Introduce more practical learning, sports activities, and leadership-based projects[cite: 2]",
+                    "Remove all teachers",
+                    "Stop extracurricular activities"
+                ],
+                answer: 1,
+                hint: "Focus on practical learning, teamwork, and leadership development.",
+                explanation: "Introducing practical learning, sports, and leadership projects helps build teamwork and problem-solving skills[cite: 2]."
+            },
+            {
+                question: "89. What is the fundamental difference between success and happiness?",
+                options: [
+                    "Success is achieving goals, while happiness is broader satisfaction, well-being, and a sense of purpose[cite: 2]",
+                    "They mean the exact same thing",
+                    "Success brings permanent misery",
+                    "Happiness requires no effort or goals"
+                ],
+                answer: 0,
+                hint: "Goal achievement vs broader well-being and purpose.",
+                explanation: "Success relates to achieving specific goals, whereas happiness is a broader sense of satisfaction, well-being, and purpose[cite: 2]."
+            },
+            {
+                question: "90. Should a military leader be strictly authoritarian or friendly?",
+                options: [
+                    "Strictly cruel with no empathy",
+                    "Completely lenient with zero discipline",
+                    "Maintain a balance: approachable and understanding, but firm when standards and discipline are involved[cite: 2]",
+                    "Indifferent to the troops"
+                ],
+                answer: 2,
+                hint: "Strike a balance between approachability and firmness.",
+                explanation: "Leaders must maintain balance: approachable and empathetic, yet firm when responsibilities and discipline are required[cite: 2]."
+            },
+            {
+                question: "91. Between saving time and following correct procedures, which should you prioritize?",
+                options: [
+                    "Always skip procedures to save time",
+                    "Never compromise safety or legal requirements for speed; follow emergency procedures efficiently during crises[cite: 2]",
+                    "Never take quick action under any circumstance",
+                    "Ignore rules whenever convenient"
+                ],
+                answer: 1,
+                hint: "Never compromise safety/procedures; use emergency protocols efficiently.",
+                explanation: "Do not compromise safety or legal requirements merely to save time; follow established emergency procedures efficiently[cite: 2]."
+            },
+            {
+                question: "92. What is the correct perspective on social media usage?",
+                options: [
+                    "It is entirely evil and must be banned",
+                    "It is useful for communication and education, but requires balanced, responsible use to avoid misinformation[cite: 2]",
+                    "It should consume all your daily free time",
+                    "Privacy concerns do not exist online"
+                ],
+                answer: 1,
+                hint: "Useful for communication if used in a balanced, responsible manner.",
+                explanation: "Social media is useful for communication and learning, but must be used in a balanced, responsible way avoiding misinformation[cite: 2]."
+            },
+            {
+                question: "93. When asked about your role model, what should your response focus on?",
+                options: [
+                    "A fictional movie superhero",
+                    "Someone whose specific discipline, determination, and approach to responsibilities you genuinely admire[cite: 2]",
+                    "A celebrity known for scandals",
+                    "Claiming you have no role models"
+                ],
+                answer: 1,
+                hint: "Focus on discipline, determination, and character traits.",
+                explanation: "Choose someone whose specific qualities, discipline, and determination you admire and try to emulate[cite: 2]."
+            },
+            {
+                question: "94. If you could meet any historical military officer, who would it be and why?",
+                options: [
+                    "Field Marshal Sam Manekshaw, admired for leadership, professional competence, and confidence[cite: 2]",
+                    "Fictional warlords from video games",
+                    "No military figures are worth studying",
+                    "Generals who surrendered without a fight"
+                ],
+                answer: 0,
+                hint: "Field Marshal Sam Manekshaw is a classic example of exceptional leadership.",
+                explanation: "Meeting leaders like Field Marshal Sam Manekshaw inspires understanding of professional competence, confidence, and leadership[cite: 2]."
+            },
+            {
+                question: "95. What was the significance of the 1999 Kargil War?",
+                options: [
+                    "It was a naval battle in the Indian Ocean",
+                    "Indian forces executed Operation Vijay in Jammu and Kashmir to recapture positions from infiltrators[cite: 2]",
+                    "It ended without any military engagement",
+                    "It took place in the Thar Desert"
+                ],
+                answer: 1,
+                hint: "Operation Vijay in Kargil sector, commemorated on July 26.",
+                explanation: "The Kargil War (1999) involved Operation Vijay, where Indian forces successfully recaptured posts from infiltrators[cite: 2]."
+            },
+            {
+                question: "96. What is the difference between internal security and external security?",
+                options: [
+                    "Internal security deals with domestic threats like terrorism and insurgency; external security deals with cross-border aggression[cite: 2]",
+                    "Internal security is handled by the Navy, external by police",
+                    "There is no difference",
+                    "External security only covers cyber crime"
+                ],
+                answer: 0,
+                hint: "Domestic threats vs cross-border threats.",
+                explanation: "Internal security concerns domestic threats (terrorism, insurgency), while external security concerns threats across national borders[cite: 2]."
+            },
+            {
+                question: "97. What should you do if your team fails despite your best efforts?",
+                options: [
+                    "Blame everyone else on the team",
+                    "Take responsibility for your contribution, analyze failure reasons with the team, and apply lessons forward[cite: 2]",
+                    "Pretend the failure never occurred",
+                    "Quit team activities permanently"
+                ],
+                answer: 1,
+                hint: "Take responsibility, analyze causes, and apply lessons learned.",
+                explanation: "Take responsibility for your contribution, analyze failure causes, discuss improvements, and apply lessons to future tasks[cite: 2]."
+            },
+            {
+                question: "98. When asked 'Where do you see yourself 10 years from now?', what is a strong sample response?",
+                options: [
+                    "Retired and living on a beach without working",
+                    "As a competent, responsible officer who has developed strong leadership abilities and contributed meaningfully[cite: 2]",
+                    "Working in a completely unrelated private firm",
+                    "Unsure if you will have a job"
+                ],
+                answer: 1,
+                hint: "Focus on professional competence, leadership growth, and organizational contribution.",
+                explanation: "See yourself as a competent officer with strong leadership abilities, valuable experience, and ongoing dedication to learning[cite: 2]."
+            },
+            {
+                question: "99. How should you answer 'Why should the SSB recommend you?'",
+                options: [
+                    "By bragging that you are the most perfect person alive",
+                    "By acknowledging you are developing required qualities like responsibility and teamwork, and proving capability through action[cite: 2]",
+                    "By insulting other candidates",
+                    "By demanding selection based on family wealth"
+                ],
+                answer: 1,
+                hint: "Demonstrate self-awareness, willingness to learn, and commitment.",
+                explanation: "Understand selection requires demonstrating qualities like responsibility and teamwork while continuously working on shortcomings[cite: 2]."
+            },
+            {
+                question: "100. When the interviewing officer asks 'Do you have any questions for me?', how should you respond?",
+                options: [
+                    "Say 'No' immediately and walk out",
+                    "Ask an insightful question about professional habits or qualities a young officer should continuously develop[cite: 2]",
+                    "Ask about the officer's salary",
+                    "Complain about the interview process"
+                ],
+                answer: 1,
+                hint: "Show curiosity about professional development and officer growth.",
+                explanation: "Ask a thoughtful question demonstrating curiosity about professional growth, such as qualities an officer should cultivate[cite: 2]."
+            }
+        ];
+
+        // State Variables
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(quizData.length).fill(null);
+        let score = 0;
+
+        // UI Elements
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const hintBox = document.getElementById("hint-box");
+        const hintText = document.getElementById("hint-text");
+        const explanationBox = document.getElementById("explanation-box");
+        const explanationText = document.getElementById("explanation-text");
+        const questionTracker = document.getElementById("question-tracker");
+        const scoreTracker = document.getElementById("score-tracker");
+        const progressBar = document.getElementById("progress-bar");
+        const nextBtn = document.getElementById("next-btn");
+        const prevBtn = document.getElementById("prev-btn");
+        const hintBtn = document.getElementById("hint-btn");
+
+        const quizScreen = document.getElementById("quiz-screen");
+        const resultsScreen = document.getElementById("results-screen");
+
+        // Initialization
+        function loadQuestion() {
+            const currentQ = quizData[currentQuestionIndex];
+            
+            // Update Meta Data
+            questionTracker.textContent = `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
+            scoreTracker.textContent = `Score: ${score}`;
+            progressBar.style.width = `${((currentQuestionIndex + 1) / quizData.length) * 100}%`;
+
+            // Reset Boxes
+            hintBox.style.display = "none";
+            explanationBox.style.display = "none";
+            hintBtn.textContent = "Show Hint 💡";
+
+            // Load Question & Hint/Explanation Text
+            questionText.textContent = currentQ.question;
+            hintText.textContent = currentQ.hint;
+            explanationText.textContent = currentQ.explanation;
+
+            // Clear and Load Options
+            optionsContainer.innerHTML = "";
+            const answered = userAnswers[currentQuestionIndex] !== null;
+
+            currentQ.options.forEach((option, index) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${option}</span>`;
+
+                if (answered) {
+                    btn.disabled = true;
+                    const selected = userAnswers[currentQuestionIndex];
+                    if (index === currentQ.answer) {
+                        btn.classList.add("correct");
+                    }
+                    if (index === selected && selected !== currentQ.answer) {
+                        btn.classList.add("incorrect");
+                    }
+                } else {
+                    btn.onclick = () => selectAnswer(index);
+                }
+
+                optionsContainer.appendChild(btn);
+            });
+
+            // Show explanation if already answered
+            if (answered) {
+                explanationBox.style.display = "block";
+            }
+
+            // Button Control
+            prevBtn.disabled = currentQuestionIndex === 0;
+            nextBtn.disabled = !answered;
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextBtn.textContent = "Finish Quiz 🏁";
+            } else {
+                nextBtn.textContent = "Next Question ➜";
+            }
+        }
+
+        function selectAnswer(selectedIndex) {
+            const currentQ = quizData[currentQuestionIndex];
+            userAnswers[currentQuestionIndex] = selectedIndex;
+
+            if (selectedIndex === currentQ.answer) {
+                score++;
+            }
+
+            // Update UI after selection
+            loadQuestion();
+        }
+
+        function toggleHint() {
+            if (hintBox.style.display === "none" || hintBox.style.display === "") {
+                hintBox.style.display = "block";
+                hintBtn.textContent = "Hide Hint 💡";
+            } else {
+                hintBox.style.display = "none";
+                hintBtn.textContent = "Show Hint 💡";
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < quizData.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            quizScreen.style.display = "none";
+            resultsScreen.style.display = "block";
+
+            const percentage = Math.round((score / quizData.length) * 100);
+            document.getElementById("percentage-score").textContent = `${percentage}%`;
+            document.getElementById("stat-total").textContent = quizData.length;
+            document.getElementById("stat-correct").textContent = score;
+            document.getElementById("stat-incorrect").textContent = quizData.length - score;
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(quizData.length).fill(null);
+            score = 0;
+            resultsScreen.style.display = "none";
+            quizScreen.style.display = "block";
+            loadQuestion();
+        }
+
+        // Start Quiz on load
+        loadQuestion();
+    </script>
+</body>
+</html>
